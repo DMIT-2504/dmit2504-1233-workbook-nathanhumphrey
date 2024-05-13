@@ -17,5 +17,18 @@ void main() {
     expect(actual, expected);
   });
 
-  // TODO: create the test for the calculate function
+  test('volume', () {
+    // arrange
+    int width = 2;
+    int height = 2;
+    int length = 2;
+    int expected = 8;
+    int actual;
+
+    // act
+    actual = volume(width, length, height);
+
+    // assert
+    expect(actual, expected);
+  });
 }
