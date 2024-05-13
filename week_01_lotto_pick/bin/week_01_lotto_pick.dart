@@ -28,6 +28,8 @@ void main(List<String> arguments) {
     }
   }
 
-  // TODO: sort the ticket
+  // sort the ticket
+  ticket.sort();
+
   stdout.writeln(ticket);
 }
