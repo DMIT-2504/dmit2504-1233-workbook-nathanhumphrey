@@ -10,6 +10,7 @@ class ProfileHeading extends StatelessWidget {
       child: Text(
         'Employee Profile',
         style: TextStyle(
+          fontFamily: 'Lobster',
           fontSize: 36.0,
           fontWeight: FontWeight.bold,
         ),
