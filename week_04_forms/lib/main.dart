@@ -23,12 +23,20 @@ class MainApp extends StatelessWidget {
   }
 }
 
-class UserSignUpForm extends StatelessWidget {
+class UserSignUpForm extends StatefulWidget {
   const UserSignUpForm({super.key});
+
+  @override
+  State<UserSignUpForm> createState() => _UserSignUpFormState();
+}
+
+class _UserSignUpFormState extends State<UserSignUpForm> {
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -56,7 +64,16 @@ class UserSignUpForm extends StatelessWidget {
             ),
           ),
           ElevatedButton(
-            onPressed: () => false,
+            onPressed: () => {
+              if (_formKey.currentState!.validate())
+                {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Processing Data ...'),
+                    ),
+                  ),
+                }
+            },
             child: const Text('Sign Up'),
           ),
         ],
