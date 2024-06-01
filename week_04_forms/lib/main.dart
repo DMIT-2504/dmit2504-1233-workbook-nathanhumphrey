@@ -1,3 +1,5 @@
+// ignore_for_file: use_super_parameters
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -33,6 +35,16 @@ class UserSignUpForm extends StatefulWidget {
 class _UserSignUpFormState extends State<UserSignUpForm> {
   final _formKey = GlobalKey<FormState>();
 
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -45,31 +57,18 @@ class _UserSignUpFormState extends State<UserSignUpForm> {
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
               )),
-          TextFormField(
-            validator: (value) => value == null || value.trim() == ''
-                ? 'Username cannot be empty'
-                : null,
-            autocorrect: false,
-            enableSuggestions: true,
-            decoration: const InputDecoration(
-              labelText: 'Username',
-            ),
+          UsernameInput(
+            controller: _usernameController,
           ),
-          TextFormField(
-            autocorrect: false,
-            enableSuggestions: false,
-            obscureText: true,
-            decoration: const InputDecoration(
-              labelText: 'Password',
-            ),
-          ),
+          PasswordFormField(controller: _passwordController),
           ElevatedButton(
             onPressed: () => {
               if (_formKey.currentState!.validate())
                 {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Processing Data ...'),
+                    SnackBar(
+                      content: Text(
+                          'Username: ${_usernameController.text} Password: ${_passwordController.text}'),
                     ),
                   ),
                 }
@@ -77,6 +76,65 @@ class _UserSignUpFormState extends State<UserSignUpForm> {
             child: const Text('Sign Up'),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class PasswordFormField extends FormField<String> {
+  final TextEditingController controller;
+  final String label;
+
+  PasswordFormField({
+    FormFieldSetter<String>? onSaved,
+    required this.controller,
+    this.label = 'Password',
+    FormFieldValidator<String>? validator,
+    Key? key,
+  }) : super(
+          key: key,
+          validator: validator,
+          builder: (FormFieldState<String> state) {
+            return TextFormField(
+              controller: controller,
+              autocorrect: false,
+              enableSuggestions: false,
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: label,
+              ),
+            );
+          },
+        );
+}
+
+class UsernameInput extends StatefulWidget {
+  final TextEditingController controller;
+  final String label;
+  final String errorMessage;
+
+  const UsernameInput({
+    required this.controller,
+    this.label = 'Username',
+    this.errorMessage = 'Username cannot be empty',
+    super.key,
+  });
+
+  @override
+  State<UsernameInput> createState() => _UsernameInputState();
+}
+
+class _UsernameInputState extends State<UsernameInput> {
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: widget.controller,
+      validator: (value) =>
+          value == null || value.trim() == '' ? widget.errorMessage : null,
+      autocorrect: false,
+      enableSuggestions: true,
+      decoration: InputDecoration(
+        labelText: widget.label,
       ),
     );
   }
