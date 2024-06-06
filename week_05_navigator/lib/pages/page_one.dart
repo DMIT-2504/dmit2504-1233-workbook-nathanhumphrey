@@ -13,6 +13,10 @@ class _PageOneState extends State<PageOne> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Navigation App'),
+        backgroundColor: Colors.red.shade200,
+      ),
       body: SafeArea(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -22,11 +26,16 @@ class _PageOneState extends State<PageOne> {
                 const Text('Page One'),
                 ElevatedButton(
                   onPressed: () async {
+                    // With the AppBar we have a second way of returning
+                    // to page one, which will return Null. Deal with it
+                    // by adding '?' to the return type below
                     var returnValue = await Navigator.of(context)
-                        .pushNamed('/page-two') as String;
+                        .pushNamed('/page-two') as String?; // Added ?
 
                     setState(() {
-                      data = returnValue;
+                      // Add nullish operator to deal with the possible
+                      // Null value that could be returned
+                      data = returnValue ?? 'NO DATA';
                     });
                   },
                   child: const Text('Goto Page 2'),
