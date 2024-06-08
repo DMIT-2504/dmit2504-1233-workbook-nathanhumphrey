@@ -15,7 +15,8 @@ class _PageOneState extends State<PageOne> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Navigation App'),
-        backgroundColor: Colors.red.shade200,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Theme.of(context).colorScheme.onPrimary,
       ),
       body: SafeArea(
         child: Row(
