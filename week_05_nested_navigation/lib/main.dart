@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:week_05_nested_navigation/pages/home_page.dart';
 import 'package:week_05_nested_navigation/pages/settings/settings_manager.dart';
-import 'package:week_05_nested_navigation/pages/settings/settings_page.dart';
 import 'package:week_05_nested_navigation/routes.dart';
 
 void main() {
