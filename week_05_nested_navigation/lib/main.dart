@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:week_05_nested_navigation/pages/home_page.dart';
+import 'package:week_05_nested_navigation/pages/settings/settings_manager.dart';
+import 'package:week_05_nested_navigation/pages/settings/settings_page.dart';
 import 'package:week_05_nested_navigation/routes.dart';
 
 void main() {
@@ -20,7 +22,7 @@ class MainApp extends StatelessWidget {
             page = const HomePage();
             break;
           case settingsHomeRoute:
-            page = const Text('Settings Page'); // TODO: Get rid of this
+            page = const SettingsManager();
             break;
           default:
             throw Exception('Unknown route: ${settings.name}');
