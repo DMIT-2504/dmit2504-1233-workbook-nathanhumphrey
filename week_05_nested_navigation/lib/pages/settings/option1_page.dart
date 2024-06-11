@@ -25,9 +25,12 @@ class _Option1PageState extends State<Option1Page> {
   }
 
   Future<void> _initText() async {
+    // Check for existing text to load
     final prefs = await SharedPreferences.getInstance();
-    final text = prefs.getString('text') ?? '';
 
+    // Try reading the counter value from persistent storage.
+    // If not present, null is returned, so default to 0.
+    final text = prefs.getString('text') ?? '';
     setState(() {
       _textController.text = text;
     });
@@ -54,14 +57,18 @@ class _Option1PageState extends State<Option1Page> {
             ),
             ElevatedButton(
               onPressed: () async {
+                // Load and obtain the shared preferences for this app.
                 final prefs = await SharedPreferences.getInstance();
+                // Save the text, if its not empty, to shared prefs
                 await prefs.setString('text', _textController.text);
               },
               child: const Text('Save Text'),
             ),
             ElevatedButton(
               onPressed: () async {
+                // Load and obtain the shared preferences for this app.
                 final prefs = await SharedPreferences.getInstance();
+                // Remove the text, if its not empty, to shared prefs
                 await prefs.remove('text');
 
                 // Now, clear the text controller
