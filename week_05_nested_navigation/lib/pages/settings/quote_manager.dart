@@ -32,4 +32,30 @@ class QuoteManager {
 
     return database;
   }
+
+  // Create our CRUD
+  Future<List<Quote>> getQuotes() async {
+    final db = await database;
+
+    final maps = await db.query(
+      'quotes',
+      orderBy: 'author',
+    );
+
+    return List.generate(maps.length, (index) => Quote.fromMap(maps[index]));
+  }
+
+  Future<int> addQuote(Quote quote) async {
+    final db = await database;
+
+    final map = <String, dynamic>{};
+    map['text'] = quote.text;
+    map['author'] = quote.author;
+
+    final id = await db.insert('quotes', map);
+
+    return id;
+  }
+
+  // TODO: get a quote by id, update a quote, delete a quote
 }
