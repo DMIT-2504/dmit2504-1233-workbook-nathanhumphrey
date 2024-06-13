@@ -11,6 +11,15 @@ class QuoteManager {
   static const QuoteManager instance = QuoteManager._();
   static Database? _database;
 
+  Future<Database> get database async {
+    if (_database != null) {
+      return _database!;
+    }
+
+    _database = await _initDatabase();
+    return _database!;
+  }
+
   Future<Database> _initDatabase() async {
     final database = openDatabase(
       join(await getDatabasesPath(), _databaseName),
