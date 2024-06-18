@@ -81,23 +81,45 @@ class _Option3PageState extends State<Option3Page> {
 
                 // Add/edit the quote to/in the db
                 try {
-                  q = Quote(
-                      author: _authorController.text,
-                      text: _textController.text);
+                  if (_quote == null) {
+                    // Add quote
+                    q = Quote(
+                        author: _authorController.text,
+                        text: _textController.text);
 
-                  final id = await QuoteManager.instance.addQuote(q);
+                    final id = await QuoteManager.instance.addQuote(q);
 
-                  q.id = id;
+                    q.id = id;
 
-                  setState(() {
-                    _quotes.add(q);
-                    _textController.text = '';
-                    _authorController.text = '';
-                  });
+                    setState(() {
+                      _quotes.add(q);
+                      _textController.text = '';
+                      _authorController.text = '';
+                    });
+
+                    success = 'Added quote $id';
+                  } else {
+                    // Edit a quote
+                    q = _quote!;
+
+                    q.author = _authorController.text;
+                    q.text = _textController.text;
+
+                    await QuoteManager.instance.updateQuote(q);
+
+                    setState(() {
+                      _quote = null;
+                      _authorController.text = '';
+                      _textController.text = '';
+                    });
+
+                    success = 'Updated quote ${q.id}';
+                  }
+
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Added quote $id to the db'),
+                        content: Text(success),
                       ),
                     );
                   }
@@ -111,19 +133,51 @@ class _Option3PageState extends State<Option3Page> {
                   }
                 }
               },
-              child: const Text('Add Quote'),
+              child: Text('${_quote == null ? 'Add' : 'Edit'} Quote'),
             ),
             ElevatedButton(
-              onPressed: () async {
-                // TODO: implement the delete for a quote
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Quote Deleted'),
-                  ));
-                }
-              },
+              onPressed: _quote != null
+                  ? () async {
+                      // TODO: implement the delete for a quote
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text('Quote Deleted'),
+                        ));
+                      }
+                    }
+                  : null,
               child: const Text('Delete Quote'),
             ),
+            const SizedBox(
+              height: 20.0,
+            ),
+            _quotes.isEmpty
+                ? const Text('No quotes to display')
+                : Expanded(
+                    child: Column(
+                    children: [
+                      const Text('Quotes'),
+                      Expanded(
+                        child: ListView.builder(
+                            itemCount: _quotes.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final quote = _quotes[index];
+
+                              return ListTile(
+                                title: Text(quote.toString()),
+                                onTap: () {
+                                  setState(() {
+                                    _quote = quote;
+                                    _authorController.text = quote.author;
+                                    _textController.text = quote.text;
+                                  });
+                                },
+                              );
+                            }),
+                      ),
+                    ],
+                  )),
           ],
         ),
       ),

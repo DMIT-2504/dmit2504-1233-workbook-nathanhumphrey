@@ -57,5 +57,16 @@ class QuoteManager {
     return id;
   }
 
-  // TODO: get a quote by id, update a quote, delete a quote
+  Future<int> updateQuote(Quote quote) async {
+    final db = await database;
+
+    return db.update(
+      'quotes',
+      quote.toMap(),
+      where: 'id = ?',
+      whereArgs: [quote.id],
+    );
+  }
+
+  // TODO: get a quote by id, delete a quote
 }
