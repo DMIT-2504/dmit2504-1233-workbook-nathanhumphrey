@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:firebase_core/firebase_core.dart";
-import "package:firebase_auth/firebase_auth.dart";
+import "package:firebase_auth/firebase_auth.dart" hide EmailAuthProvider;
+import "package:firebase_ui_auth/firebase_ui_auth.dart";
 import "package:week_07_firebase/firebase_options.dart";
 
 class AppState extends ChangeNotifier {
@@ -16,6 +17,12 @@ class AppState extends ChangeNotifier {
 
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+    FirebaseUIAuth.configureProviders(
+      [
+        EmailAuthProvider(),
+      ],
     );
 
     FirebaseAuth.instance.userChanges().listen((user) {

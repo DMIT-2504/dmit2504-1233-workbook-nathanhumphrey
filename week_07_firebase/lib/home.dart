@@ -22,9 +22,15 @@ class HomePage extends StatelessWidget {
               builder: (context, _) {
                 return appState.loggedIn
                     ? (ElevatedButton(
-                        onPressed: () {}, child: const Text('Profile')))
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('/profile');
+                        },
+                        child: const Text('Profile')))
                     : (ElevatedButton(
-                        onPressed: () {}, child: const Text('Sign In')));
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('/sign-in');
+                        },
+                        child: const Text('Sign In')));
               })
         ],
       ),

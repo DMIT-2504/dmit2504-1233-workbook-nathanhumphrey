@@ -1,3 +1,4 @@
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:week_07_firebase/app_state.dart';
@@ -26,8 +27,52 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final routes = {
+      '/': (context) {
+        return HomePage(appState: appState);
+      },
+      '/sign-in': (context) {
+        return SignInScreen(
+          actions: [
+            AuthStateChangeAction((context, state) {
+              // state has changed, find out what happened and deal with it
+              final user = switch (state) {
+                SignedIn state => state.user,
+                UserCreated state => state.credential.user,
+                _ => null,
+              };
+
+              if (user == null) {
+                return;
+              }
+
+              if (state is UserCreated) {
+                // New user, update their display name
+                user.updateDisplayName(user.email!.split('@').first);
+              }
+
+              // remove the modal
+              Navigator.of(context).pop();
+              Navigator.of(context).pushReplacementNamed('/');
+            }),
+          ],
+        );
+      },
+      '/profile': (context) {
+        return ProfileScreen(
+          actions: [
+            SignedOutAction((context) {
+              // Remove the modal
+              Navigator.of(context).pop();
+              Navigator.of(context).pushReplacementNamed('/');
+            }),
+          ],
+        );
+      }
+    };
+
     return MaterialApp(
-      home: Scaffold(body: HomePage(appState: appState)),
+      routes: routes,
     );
   }
 }
