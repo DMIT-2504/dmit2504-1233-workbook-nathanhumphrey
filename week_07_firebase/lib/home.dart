@@ -21,11 +21,18 @@ class HomePage extends StatelessWidget {
               listenable: appState,
               builder: (context, _) {
                 return appState.loggedIn
-                    ? (ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pushNamed('/profile');
-                        },
-                        child: const Text('Profile')))
+                    ? (Column(children: [
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pushNamed('/profile');
+                            },
+                            child: const Text('Profile')),
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pushNamed('/todos');
+                            },
+                            child: const Text('Todo List'))
+                      ]))
                     : (ElevatedButton(
                         onPressed: () {
                           Navigator.of(context).pushNamed('/sign-in');
