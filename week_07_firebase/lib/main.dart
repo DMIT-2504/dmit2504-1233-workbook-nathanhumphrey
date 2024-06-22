@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:week_07_firebase/app_state.dart';
 import 'package:week_07_firebase/home.dart';
+import 'package:week_07_firebase/todo_page.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -11,9 +12,9 @@ Future<void> main() async {
   // Create our AppState
   AppState appState = AppState();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
 
   runApp(MainApp(
     appState: appState,
@@ -68,11 +69,35 @@ class MainApp extends StatelessWidget {
             }),
           ],
         );
+      },
+      '/todos': (context) {
+        return TodoPage(
+          appState: appState,
+        ); // need a TodoPage
       }
     };
 
     return MaterialApp(
+      title: 'Firebase Demo',
       routes: routes,
+      onGenerateRoute: (settings) {
+        if (settings.name == '/todos') {
+          // Perform an auth check
+          if (appState.loggedIn) {
+            return MaterialPageRoute(
+                builder: (context) => TodoPage(
+                      appState: appState,
+                    ));
+          } else {
+            // Not logged in!
+            return MaterialPageRoute(
+                builder: (context) => HomePage(appState: appState));
+          }
+        }
+
+        // For any other route, use the default behaviour
+        return null;
+      },
     );
   }
 }
