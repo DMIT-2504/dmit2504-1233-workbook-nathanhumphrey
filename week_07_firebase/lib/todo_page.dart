@@ -63,16 +63,18 @@ class _TodoState extends State<TodoPage> {
               value: todo.completed,
               onChanged: (value) {
                 // update the todo in the database
-                print(value);
+                setState(() {
+                  todo.completed = value!;
+                  widget.appState.updateTodo(todo: todo);
+                });
               },
             ),
           ),
           onDismissed: (direction) {
             setState(() {
               todos.remove(todo);
-              // delete the todo in the database
+              widget.appState.deleteTodo(todo: todo);
             });
-            print(direction);
           },
         );
       },

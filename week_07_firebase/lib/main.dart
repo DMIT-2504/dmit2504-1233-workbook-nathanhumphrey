@@ -12,10 +12,6 @@ Future<void> main() async {
   // Create our AppState
   AppState appState = AppState();
 
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
-
   runApp(MainApp(
     appState: appState,
   ));

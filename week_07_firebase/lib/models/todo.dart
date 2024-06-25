@@ -18,4 +18,11 @@ class Todo {
       id: snapshot.id,
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'description': description,
+      'completed': completed,
+    };
+  }
 }
