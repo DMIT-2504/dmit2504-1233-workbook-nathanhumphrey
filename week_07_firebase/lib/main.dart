@@ -1,10 +1,8 @@
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:week_07_firebase/app_state.dart';
 import 'package:week_07_firebase/home.dart';
 import 'package:week_07_firebase/todo_page.dart';
-import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
