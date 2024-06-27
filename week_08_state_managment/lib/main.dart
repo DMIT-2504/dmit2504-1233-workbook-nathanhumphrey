@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:week_08_state_managment/state/user_cubit.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'pages/home_page.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const ProviderScope(child: MainApp()));
 }
 
 class MainApp extends StatelessWidget {
@@ -12,13 +12,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => UserCubit(),
-      child: const MaterialApp(
-        home: Scaffold(
-          body: Center(
-            child: HomePage(),
-          ),
+    return const MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: HomePage(),
         ),
       ),
     );
