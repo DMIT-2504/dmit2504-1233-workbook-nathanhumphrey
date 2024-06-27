@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:week_08_state_managment/state/user_cubit.dart';
 
 import '../models/user.dart';
 
@@ -8,32 +9,33 @@ class LastNamePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<User>(
-      builder: (context, user, child) => Scaffold(
-        appBar: AppBar(
-          title: const Text('Last Name Page'),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Last Name Page'),
+      ),
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            const SizedBox(
+              height: 24.0,
+            ),
+            // RE-render on app state changes
+            // Replace ListenableBuilder with BlocBuilder
+            BlocBuilder<UserCubit, UserState>(
+              builder: (BuildContext contex, UserState state) => Text(
+                  'User name: ${state.user.firstName} ${state.user.lastName}'),
+            ),
+          ],
         ),
-        body: Center(
-          child: Column(
-            children: <Widget>[
-              const SizedBox(
-                height: 24.0,
-              ),
-              ListenableBuilder(
-                listenable: user,
-                builder: (BuildContext context, Widget? child) =>
-                    Text('User name: ${user.firstName} ${user.lastName}'),
-              ),
-            ],
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          // Update our user last name here
-          onPressed: () {
-            user.lastName = 'NewLastName';
-          },
-          child: const Icon(Icons.update),
-        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        // Update our user first name here
+        onPressed: () {
+          User user = context.read<UserCubit>().state.user;
+          user.lastName = 'NewLastName';
+          context.read<UserCubit>().updatedUser(user);
+        },
+        child: const Icon(Icons.update),
       ),
     );
   }

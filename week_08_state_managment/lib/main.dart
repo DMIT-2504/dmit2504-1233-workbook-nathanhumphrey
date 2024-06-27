@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import 'models/user.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:week_08_state_managment/state/user_cubit.dart';
 import 'pages/home_page.dart';
 
 void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => User('Jane', 'Doe'),
-      child: const MainApp(),
-    ),
-  );
+  runApp(const MainApp());
 }
 
 class MainApp extends StatelessWidget {
@@ -18,10 +12,13 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: HomePage(),
+    return BlocProvider(
+      create: (_) => UserCubit(),
+      child: const MaterialApp(
+        home: Scaffold(
+          body: Center(
+            child: HomePage(),
+          ),
         ),
       ),
     );
