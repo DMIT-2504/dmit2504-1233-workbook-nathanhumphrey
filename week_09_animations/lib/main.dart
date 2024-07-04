@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:week_09_animations/animations_page.dart';
+import 'package:week_09_animations/home_page.dart';
 
 void main() {
   runApp(const MainApp());
@@ -11,45 +12,8 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Tranforms'),
-        ),
-        floatingActionButton: FloatingActionButton(
-          tooltip: 'Animations Page',
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const AnimationsPage(),
-              ),
-            );
-          },
-          child: const Icon(Icons.play_arrow),
-        ),
-        body: Center(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Transform.rotate(
-              // Rotate 30 degrees
-              angle: 30 * (math.pi / 180),
-              child: const Text('Rotate only'),
-            ),
-            // Transforms can be nested too!
-            Transform.scale(
-              scale: 1.5,
-              child: Transform.translate(
-                offset: const Offset(0, 64.0),
-                child: Transform.rotate(
-                  angle: -30 * (math.pi / 180),
-                  child: const Text('Scale, translate, and rotate'),
-                ),
-              ),
-            )
-          ],
-        )),
-      ),
+    return const MaterialApp(
+      home: HomePage(),
     );
   }
 }
