@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:week_09_animations/animations_page.dart';
 
 void main() {
   runApp(const MainApp());
@@ -15,6 +16,17 @@ class MainApp extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Tranforms'),
         ),
+        floatingActionButton: FloatingActionButton(
+          tooltip: 'Animations Page',
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const AnimationsPage(),
+              ),
+            );
+          },
+          child: const Icon(Icons.play_arrow),
+        ),
         body: Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -24,6 +36,7 @@ class MainApp extends StatelessWidget {
               angle: 30 * (math.pi / 180),
               child: const Text('Rotate only'),
             ),
+            // Transforms can be nested too!
             Transform.scale(
               scale: 1.5,
               child: Transform.translate(
