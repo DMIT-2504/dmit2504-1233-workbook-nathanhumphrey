@@ -24,6 +24,16 @@ class MainApp extends StatelessWidget {
               angle: 30 * (math.pi / 180),
               child: const Text('Rotate only'),
             ),
+            Transform.scale(
+              scale: 1.5,
+              child: Transform.translate(
+                offset: const Offset(0, 64.0),
+                child: Transform.rotate(
+                  angle: -30 * (math.pi / 180),
+                  child: const Text('Scale, translate, and rotate'),
+                ),
+              ),
+            )
           ],
         )),
       ),
