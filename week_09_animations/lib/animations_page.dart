@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
@@ -12,6 +13,10 @@ class _AnimationsPageState extends State<AnimationsPage>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
 
+  // Required for tween animation
+  int _tweenValue = 0;
+  late Timer _tweenTimer;
+
   @override
   void initState() {
     _controller = AnimationController(
@@ -20,6 +25,16 @@ class _AnimationsPageState extends State<AnimationsPage>
         seconds: 3,
       ),
     )..repeat();
+
+    // Start the tween animation parts
+    _tweenTimer = Timer.periodic(
+      const Duration(milliseconds: 30),
+      (timer) {
+        setState(() {
+          _tweenValue = _tweenValue == 1000 ? 1 : _tweenValue + 1;
+        });
+      },
+    );
 
     super.initState();
   }
@@ -44,6 +59,34 @@ class _AnimationsPageState extends State<AnimationsPage>
                 );
               },
             ),
+            const SizedBox(
+              height: 105.0,
+            ),
+            TweenAnimationBuilder(
+              tween: IntTween(
+                begin: 0,
+                end: _tweenValue,
+              ),
+              duration: const Duration(microseconds: 30),
+              builder: (_, int? value, __) {
+                double val = value! / 100.0;
+                return Transform.rotate(
+                  angle: val * (2 * math.pi),
+                  child: const Text('Tween Builder Rotation'),
+                );
+              },
+            ),
+            const SizedBox(
+              height: 105.0,
+            ),
+            RotationTransition(
+              //turns: _controller,
+              turns: CurvedAnimation(
+                parent: _controller,
+                curve: Curves.elasticInOut,
+              ),
+              child: const Text('RotationTransition'),
+            )
           ],
         ),
       ),
