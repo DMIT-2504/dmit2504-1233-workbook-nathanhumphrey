@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
@@ -16,6 +17,12 @@ class _AnimationsPageState extends State<AnimationsPage>
   // Required for tween animation
   int _tweenValue = 0;
   late Timer _tweenTimer;
+
+  @override
+  void dispose() {
+    _tweenTimer.cancel();
+    super.dispose();
+  }
 
   @override
   void initState() {
