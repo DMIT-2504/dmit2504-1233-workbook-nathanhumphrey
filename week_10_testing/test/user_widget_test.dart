@@ -22,7 +22,19 @@ void main() {
     // Finders
     final nameFinder = find.text('Name: Jane Doe');
     final emailFinder = find.text('Email: jdoe@example.com');
+    final fabFinder = find.byType(FloatingActionButton);
 
+    // Expect no name/email on initial render
+    expect(nameFinder, findsNothing);
+    expect(emailFinder, findsNothing);
+
+    // Tap the FAB
+    await tester.tap(fabFinder);
+
+    // Pump to render the ui
+    await tester.pump(const Duration(seconds: 1));
+
+    // Expect to find exactly 1 name and 1 email
     expect(nameFinder, findsOneWidget);
     expect(emailFinder, findsOneWidget);
   });
